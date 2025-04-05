@@ -48,6 +48,14 @@ contract TokenTest is Test {
         assertEq(token.balanceOf(alice), 4 * 10 ** 18, "Alice should have 4 tokens after playing");
     }
 
+    // test player call play when not initialized
+    function testPlayNotInitialized() public {
+        assertEq(token.balanceOf(alice), 0, "Alice should have 0 token at start");
+        vm.expectRevert("Player not initialized");
+        vm.prank(alice);
+        game.play();
+    }
+
     // test player call again play when previous game is not finished
     function testPlayAgain() public {
         vm.prank(owner);

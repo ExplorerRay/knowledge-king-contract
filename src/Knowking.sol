@@ -5,13 +5,13 @@ import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "./Token.sol";
 
 contract KnowledgeKingGame {
-    IERC20 public token;
+    KnowledgeKingToken public token;
     address private _owner;
     mapping(address => bool) private _userExistence;
     uint256 private _quizIdCounter = 1; // starting from 1
     mapping(address => uint256) private _userQuizId;
 
-    constructor(IERC20 _token) {
+    constructor(KnowledgeKingToken _token) {
         // specify the pre-deployed token address
         token = _token;
         // deployer of the contract is the owner
@@ -38,6 +38,8 @@ contract KnowledgeKingGame {
         require(_userQuizId[msg.sender] == 0, "Previous game not finished");
         // Player transfers 1 token for playing
         require(token.balanceOf(msg.sender) >= 1 * 10 ** 18, "Not enough tokens");
+        // check allowance is enough
+        require(token.allowance(msg.sender, address(this)) >= 1 * 10 ** 18, "Not enough allowance");
         token.transferFrom(msg.sender, _owner, 1 * 10 ** 18);
         _userQuizId[msg.sender] = _quizIdCounter;
         // Increment quiz ID
