@@ -31,9 +31,6 @@ contract KnowledgeKingGame {
         token.transferFrom(_owner, player, 5 * 10 ** 18);
     }
 
-    event startGame(address indexed player, uint256 quizId);
-    event endGame(address indexed player, uint256 quizId);
-
     // call this function to start a game
     function play() external {
         require(_userExistence[msg.sender], "Player not initialized");
@@ -42,8 +39,6 @@ contract KnowledgeKingGame {
         // Player transfers 1 token for playing
         require(token.balanceOf(msg.sender) >= 1 * 10 ** 18, "Not enough tokens");
         token.transferFrom(msg.sender, _owner, 1 * 10 ** 18);
-        // Emit event to indicate the start of the game
-        emit startGame(msg.sender, _quizIdCounter);
         _userQuizId[msg.sender] = _quizIdCounter;
         // Increment quiz ID
         _quizIdCounter++;
@@ -54,8 +49,6 @@ contract KnowledgeKingGame {
         require(_userExistence[msg.sender], "Player not initialized");
         // Check if game is in progress
         require(_userQuizId[msg.sender] != 0, "No game in progress");
-        // Emit event to indicate the end of the game
-        emit endGame(msg.sender, _userQuizId[msg.sender]);
         // Reset quiz ID for player
         _userQuizId[msg.sender] = 0;
     }

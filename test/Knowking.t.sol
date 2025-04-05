@@ -48,19 +48,6 @@ contract TokenTest is Test {
         assertEq(token.balanceOf(alice), 4 * 10 ** 18, "Alice should have 4 tokens after playing");
     }
 
-    // test event startGame
-    function testStartGame() public {
-        vm.prank(owner);
-        game.initPlayer(alice);
-        assertEq(token.balanceOf(alice), 5 * 10 ** 18, "Alice should have 5 tokens");
-        vm.prank(alice);
-        token.approve(address(game), 1 * 10 ** 18);
-        vm.expectEmit(true, true, true, true);
-        emit KnowledgeKingGame.startGame(alice, 1);
-        vm.prank(alice);
-        game.play();
-    }
-
     // test player call again play when previous game is not finished
     function testPlayAgain() public {
         vm.prank(owner);
@@ -74,22 +61,6 @@ contract TokenTest is Test {
         vm.expectRevert("Previous game not finished");
         vm.prank(alice);
         game.play();
-    }
-
-    // test player call end to finish the game
-    function testEnd() public {
-        vm.prank(owner);
-        game.initPlayer(alice);
-        assertEq(token.balanceOf(alice), 5 * 10 ** 18, "Alice should have 5 tokens");
-        vm.prank(alice);
-        token.approve(address(game), 1 * 10 ** 18);
-        vm.prank(alice);
-        game.play();
-        assertEq(token.balanceOf(alice), 4 * 10 ** 18, "Alice should have 4 tokens after playing");
-        vm.expectEmit(true, true, true, true);
-        emit KnowledgeKingGame.endGame(alice, 1);
-        vm.prank(alice);
-        game.end();
     }
 
     // test player call end again when no game in progress
