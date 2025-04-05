@@ -82,10 +82,10 @@ contract TokenTest is Test {
         game.play();
         assertEq(token.balanceOf(alice), 4 * 10 ** 18, "Alice should have 4 tokens after playing");
         vm.prank(alice);
-        game.end();
+        game.end(alice);
         vm.expectRevert("No game in progress");
         vm.prank(alice);
-        game.end();
+        game.end(alice);
     }
 
     // test player play again after end
@@ -99,7 +99,7 @@ contract TokenTest is Test {
         game.play();
         assertEq(token.balanceOf(alice), 4 * 10 ** 18, "Alice should have 4 tokens after playing");
         vm.prank(alice);
-        game.end();
+        game.end(alice);
         vm.prank(alice);
         token.approve(address(game), 1 * 10 ** 18);
         vm.prank(alice);

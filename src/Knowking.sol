@@ -47,12 +47,12 @@ contract KnowledgeKingGame {
     }
 
     // call this function to end a game so that player can start a new game
-    function end() external {
-        require(_userExistence[msg.sender], "Player not initialized");
+    function end(address player) external {
+        require(_userExistence[player], "Player not initialized");
         // Check if game is in progress
-        require(_userQuizId[msg.sender] != 0, "No game in progress");
+        require(_userQuizId[player] != 0, "No game in progress");
         // Reset quiz ID for player
-        _userQuizId[msg.sender] = 0;
+        _userQuizId[player] = 0;
     }
 
     function win(address player) external onlyOwner {
