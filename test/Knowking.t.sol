@@ -27,13 +27,6 @@ contract TokenTest is Test {
         assertEq(token.balanceOf(owner), 100000000 * 10 ** 18, "Owner should have all tokens");
     }
 
-    // test Non-Owner cannot call initPlayer
-    function testInitPlayerNotOwner() public {
-        vm.expectRevert("Not the contract owner");
-        vm.prank(alice);
-        game.initPlayer(alice);
-    }
-
     // test Owner call initPlayer and player should receive 5 tokens
     function testInitPlayer() public {
         assertEq(token.balanceOf(alice), 0, "Alice should have 0 token at start");

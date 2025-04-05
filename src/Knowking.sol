@@ -23,7 +23,7 @@ contract KnowledgeKingGame {
         _;
     }
 
-    function initPlayer(address player) external onlyOwner {
+    function initPlayer(address player) external {
         // Initialize player with 5 tokens
         require(!_userExistence[player], "Player already initialized");
         require(token.balanceOf(_owner) >= 5 * 10 ** 18, "Not enough tokens in contract");
